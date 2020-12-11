@@ -1,62 +1,86 @@
-import React, { Component, useState } from "react";
+import React, {Component, useState} from "react";
+import ReactDOM from 'react-dom';
+import '../styles/App.css';
+// import Home from './home';
+// import About from './about';
+// import LocationDisplay from './LocationDisplay';
 import {
-  Link,
-  Route,
-  BrowserRouter,
-  useLocation,
-  Switch,
-} from "react-router-dom";
-import "../styles/App.css";
-// import About from "./About/about";
-// import Home from "./Home/home";
-// import LocationDisplay from "./LocationDisplay";
-function LocationDisplay(){
-  const obj=useLocation();
-return (<div data-testid="location-display">{obj.pathname}</div>)
-}
-function Home(){
-  return (
-      <div>
-          You are home
-      </div>
-  )
-  }
-function About () {
-  return <div>You are on the about page</div>;
-};
-function BadRequest() {
-  return <div>'No match'</div>;
-}
+    BrowserRouter as Router,
+    Switch,
+    Route,
+    Link,
+    Redirect,
+    useLocation
+  } from "react-router-dom";
+
+import {browserHistory, IndexRoute} from "react-router";
 
 class App extends Component {
-  constructor(props) {
-    super(props);
-  }
+    render() {
 
+        return(
+            
+            <div id="main">
+               <Router>
+                    <nav>
+                        <div>
+                            <Link to="/">Home</Link>
+                        </div>
+                        <div>
+                            <Link to="/about">About</Link>
+                        </div>
+                    </nav>
 
-  render() {
-    return (
-      <div id="main">
-        <BrowserRouter>
-          <Link to="/">Home</Link>
-          <Link to="/about">About</Link>
-          <Switch>
-            <Route  path="/about">
-            <LocationDisplay />
-              <About/>
-               </Route> 
-            <Route exact path="/">
-            <LocationDisplay />
-              <Home/>
-            </Route>
-            <Route path="*">
-            <LocationDisplay />
-              <div>No match</div></Route>
-          </Switch>
-        </BrowserRouter>
-      </div>
-    );
-  }
+                    <Switch>
+                        <Route exact path="/">
+                            <Home />
+                            <LocationDisplay />
+                        </Route>
+                        {/* <Redirect from="/home" to="/">
+                        </Redirect> */}
+                        <Route path="/about">
+                            <About />
+                            <LocationDisplay />
+                        </Route>
+                        <Route path="*">
+                            <div>No match</div>
+                            <LocationDisplay />
+                        </Route>
+                    </Switch>
+               
+                </Router>
+            </div>
+            
+        )
+    }
 }
+
+export const LocationDisplay =({ component: Component, ...rest }) => {
+    const location = useLocation();
+    return(
+        <div data-testid="location-display">
+            {location.pathname}
+        </div>
+    );
+}
+
+export class Home extends Component {
+    render() {
+
+        return(
+            <p>You are home.</p>
+        )
+    }
+}
+
+export class About extends Component {
+    render() {
+
+        return(
+            <p>You are on the about page.</p>
+        )
+    }
+}
+
 
 export default App;
