@@ -7,16 +7,27 @@ import {
   Switch,
 } from "react-router-dom";
 import "../styles/App.css";
-import About from "./About/about";
-import Home from "./Home/home";
+// import About from "./About/about";
+// import Home from "./Home/home";
 // import LocationDisplay from "./LocationDisplay";
+function LocationDisplay(){
+  const obj=useLocation();
+return (<div data-testid="location-display">{obj.pathname}</div>)
+}
+function Home(){
+  return (
+      <div>
+          You are home
+      </div>
+  )
+  }
+function About () {
+  return <div>You are on the about page</div>;
+};
 function BadRequest() {
   return <div>'No match'</div>;
 }
-function LocationDisplay(){
-  const obj=useLocation();
-return (<div ata-tdestid="location-display">{obj.pathname}</div>)
-}
+
 class App extends Component {
   constructor(props) {
     super(props);
@@ -31,9 +42,9 @@ class App extends Component {
           <Link to="/about">About</Link>
           <LocationDisplay />
           <Switch>
-            <Route exact path="/about" component={About} />
+            <Route  path="/about" component={About} />
             <Route exact path="/" component={Home} />
-            <Route component={BadRequest}></Route>
+            <Route path="*" component={BadRequest}></Route>
           </Switch>
         </BrowserRouter>
       </div>
