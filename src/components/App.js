@@ -40,11 +40,18 @@ class App extends Component {
         <BrowserRouter>
           <Link to="/">Home</Link>
           <Link to="/about">About</Link>
-          <LocationDisplay />
           <Switch>
-            <Route  path="/about" component={About} />
-            <Route exact path="/" component={Home} />
-            <Route path="*" component={BadRequest}></Route>
+            <Route  path="/about">
+            <LocationDisplay />
+              <About/>
+               </Route> 
+            <Route exact path="/">
+            <LocationDisplay />
+              <Home/>
+            </Route>
+            <Route path="*">
+            <LocationDisplay />
+              <div>No match</div></Route>
           </Switch>
         </BrowserRouter>
       </div>
